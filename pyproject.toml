@@ -1,0 +1,26 @@
+[tool.pytest.ini_options]
+addopts = [
+    "--strict-config",
+    "--strict-markers",
+    "-p",
+    "no:cacheprovider",
+    "--cov=auth",
+    "--cov=config",
+    "--cov=execution_engine",
+    "--cov=execution_plan",
+    "--cov=import_project",
+    "--cov=markdown_parser",
+    "--cov=models",
+    "--cov=tasks_api",
+    "--cov=utils",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false

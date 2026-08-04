@@ -1,0 +1,27 @@
+# Google credentials and tokens
+credentials.json
+token.json
+OAuth_Client_Secret.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Tests and coverage
+.pytest_cache/
+.pytest_cache_local/
+.pytest_tmp/
+.coverage
+htmlcov/
+
+# Local tooling
+.agents/
+
+# Environment variables
+.env
+.env.*
+
+# Project Folder
+projects/
