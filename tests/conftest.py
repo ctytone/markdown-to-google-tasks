@@ -8,6 +8,7 @@ from unittest.mock import MagicMock
 import pytest
 
 import auth
+import gui
 import import_project
 
 
@@ -34,6 +35,7 @@ def prevent_real_google_authentication(
         "get_service",
         forbidden_authentication,
     )
+    monkeypatch.setattr(gui, "get_service", forbidden_authentication)
     monkeypatch.setattr(auth, "Request", forbidden_authentication)
     monkeypatch.setattr(
         auth.InstalledAppFlow,

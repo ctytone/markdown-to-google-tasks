@@ -175,3 +175,15 @@ def test_get_service_builds_tasks_v1_with_authenticated_credentials(
         "v1",
         credentials=credentials,
     )
+
+
+def test_authenticate_explains_missing_credentials_file(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Point the user at the expected folder when credentials are absent."""
+    monkeypatch.setattr(auth, "TOKEN_FILE", tmp_path / "token.json")
+    monkeypatch.setattr(auth, "CREDENTIALS_FILE", tmp_path / "credentials.json")
+
+    with pytest.raises(FileNotFoundError, match="credentials.json"):
+        auth.authenticate()

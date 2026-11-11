@@ -30,11 +30,17 @@ def authenticate() -> Credentials:
                 credentials = None
 
         if needs_authorization:
+            if not CREDENTIALS_FILE.is_file():
+                raise FileNotFoundError(
+                    "Google OAuth client file not found. Place "
+                    f"credentials.json in: {CREDENTIALS_FILE.parent}"
+                )
             flow = InstalledAppFlow.from_client_secrets_file(
                 str(CREDENTIALS_FILE), SCOPES
             )
             credentials = flow.run_local_server(port=0)
 
+        TOKEN_FILE.parent.mkdir(parents=True, exist_ok=True)
         TOKEN_FILE.write_text(credentials.to_json(), encoding="utf-8")
 
     return credentials

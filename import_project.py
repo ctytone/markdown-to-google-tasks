@@ -100,7 +100,11 @@ def main(arguments: Sequence[str] | None = None) -> int:
         "Authenticating with Google Tasks.",
         enabled=options.verbose,
     )
-    service = get_service()
+    try:
+        service = get_service()
+    except Exception as error:
+        print_error(f"Google sign-in failed: {error}")
+        return 1
     print_connection_success()
 
     if has_duplicate_task_list(service, plan):

@@ -298,6 +298,26 @@ class MarkdownImporterIntegrationTests(unittest.TestCase):
         self.assertIn("[INFO] Parsed project and built", output)
         self.assertIn("Google API access is disabled.", output)
 
+    def test_sign_in_failure_reports_error_without_traceback(self) -> None:
+        output = StringIO()
+        with (
+            patch.object(
+                import_project,
+                "get_service",
+                side_effect=FileNotFoundError("credentials.json missing"),
+            ),
+            redirect_stdout(output),
+        ):
+            status = import_project.main(
+                [str(self.markdown_path), "--execute", "--force"]
+            )
+
+        self.assertEqual(status, 1)
+        self.assertIn(
+            "[ERROR] Google sign-in failed: credentials.json missing",
+            output.getvalue(),
+        )
+
     def test_invalid_markdown_stops_before_planning_or_connection(self) -> None:
         self.markdown_path.write_text("## Missing project", encoding="utf-8")
 
